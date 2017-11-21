@@ -142,6 +142,8 @@ class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource, C
         currentTempLabel.text = String(currentWeather.currentTemp)
         currentLocationLabel.text = currentWeather.cityName
         currentWeatherTypeLabel.text = currentWeather.weatherType
+        // not all possible weather types have an image. Add a check to see if an image exists for that weather type, otherwise use a default
+        // at some point find all possible weather types and get missing images
         currentWeatherImage.image = UIImage(named: currentWeather.weatherType)
         
     }
