@@ -78,33 +78,29 @@ class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource, C
             
             if let dict = result.value as? Dictionary<String, AnyObject> {
                 
-                if let list = dict["list"] as? [Dictionary<String, AnyObject>] {
+                //print(dict)
+                if let forecast = dict["forecast"] as? Dictionary<String, AnyObject> {
                     
-                    var lastDay = ""
-                    var index = 0
-                    for obj in list {
-                        let forcast = Forcast(weatherDict: obj)
+                    //print(forecast)
+                    
+                    if let forecastday = forecast["forecastday"] as? Array<AnyObject> {
                         
-                        //print(forcast._lowTemp)
-                        //print("-----------------------------------")
+                        print(forecastday[0])
+                        print("\n\n\n\n\n\n\n\n\n\n\n")
+                        print(forecastday[1])
                         
-                        
-                        if(forcast.date != lastDay) {
+                        for i in 1..<forecastday.count {
+                            let day = forecastday[i]
+                            let forcast = Forcast(weatherDict: day as! Dictionary<String, AnyObject>)
                             self.forcasts.append(forcast)
-                            lastDay = forcast.date
-                            index += 1
-                        } else {
-                            if(self.forcasts[index - 1].lowTemp > forcast.lowTemp) {
-                                self.forcasts[index - 1]._lowTemp = forcast.lowTemp
-                            }
-                            if(self.forcasts[index - 1].highTemp < forcast.highTemp) {
-                                self.forcasts[index - 1]._highTemp = forcast.highTemp
-                            }
+                            
                         }
                         
                     }
-                    self.tableView.reloadData()
+                    
                 }
+                
+                    self.tableView.reloadData()
                 
             }
             completed()

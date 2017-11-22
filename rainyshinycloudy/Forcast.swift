@@ -45,6 +45,55 @@ class Forcast {
         return _lowTemp
     }
     
+    
+    init(weatherDict: Dictionary<String, AnyObject>) {
+        
+        if let day = weatherDict["day"] as? Dictionary<String, AnyObject> {
+            
+            if let min = day["mintemp_f"] as? Double {
+                
+                self._lowTemp = min
+                print(min)
+                
+            }
+            
+            if let max = day["maxtemp_f"] as? Double {
+                
+                self._highTemp = max
+                print(max)
+                
+            }
+            
+            if let condition = day["condition"] as? Dictionary<String, AnyObject> {
+                
+                if let text = condition["text"] as? String {
+                    
+                    self._weatherType = text
+                    print(text)
+                    
+                }
+                
+            }
+            
+        }
+        
+        
+        if let date = weatherDict["date_epoch"] as? Double {
+            
+            print(date)
+            let unixConvertedDate = Date(timeIntervalSince1970: date + 86400)
+            let dateformatter = DateFormatter()
+            dateformatter.dateStyle = .full
+            dateformatter.dateFormat = "EEEE"
+            dateformatter.timeStyle = .none
+            self._date = unixConvertedDate.dayOfTheWeek()
+            print(self._date)
+            
+        }
+        
+    }
+    
+    /*
     init(weatherDict: Dictionary<String, AnyObject>) {
         
         if let main = weatherDict["main"] as? Dictionary<String, AnyObject> {
@@ -88,6 +137,7 @@ class Forcast {
         }
   
     }
+    */
     
 }
 

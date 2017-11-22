@@ -50,13 +50,16 @@ class WeatherNow {
         return _currentTemp
     }
     
+    // function for open weather map api
+    
+    /*
     func downloadWeatherDetails(completed: @escaping DownloadComplete) {
         
         //Alamofire download
         let currentWeatherURL = URL(string: CURRENT_WEATHER_URL)!
         Alamofire.request(currentWeatherURL).responseJSON { response in
             let result = response.result
-            //print(response)
+            print(response)
             
             if let dict = result.value as? Dictionary<String, AnyObject> {
                 
@@ -83,6 +86,58 @@ class WeatherNow {
                         //print(self._currentTemp)
                     }
                 }
+                
+            }
+            completed()
+        }
+        
+    }
+ 
+    */
+    
+    func downloadWeatherDetails(completed: @escaping DownloadComplete) {
+        
+        //Alamofire download
+        let currentWeatherURL = URL(string: CURRENT_WEATHER_URL)!
+        Alamofire.request(currentWeatherURL).responseJSON { response in
+            let result = response.result
+            //print(response)
+            
+            if let dict = result.value as? Dictionary<String, AnyObject> {
+                //print(dict)
+                
+                if let location = dict["location"] as? Dictionary<String, AnyObject> {
+                    
+                    if let name = location["name"] as? String {
+                        self._cityName = name.capitalized
+                        //print(self._cityName)
+                    }
+                    
+                }
+                
+
+                
+                if let current = dict["current"] as? Dictionary<String, AnyObject> {
+                    
+                    if let condition = current["condition"] as? Dictionary<String, AnyObject> {
+                        
+                        if let text = condition["text"] as? String {
+                            
+                            self._weatherType = text
+                            //print(self._weatherType)
+                            
+                        }
+                        
+                    }
+                    
+                    if let temp_f = current["temp_f"] as? Double {
+                        
+                        self._currentTemp = temp_f
+                        //print(self._currentTemp)
+                        
+                    }
+                }
+                
                 
             }
             completed()
