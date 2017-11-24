@@ -19,6 +19,8 @@ class WeatherCell: UITableViewCell {
 
     func configureCell(forecast: Forcast) {
         
+        // broken because of new weather type naming conditions
+        // need to decide how to map the new weather types to images
         weatherIcon.image = UIImage(named: forecast.weatherType)
         dayLabel.text = forecast.date
         weatherTypeLabel.text = forecast.weatherType

@@ -89,8 +89,8 @@ class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource, C
                         print("\n\n\n\n\n\n\n\n\n\n\n")
                         print(forecastday[1])
                         
-                        for i in 1..<forecastday.count {
-                            let day = forecastday[i]
+                        for day in forecastday {
+                          
                             let forcast = Forcast(weatherDict: day as! Dictionary<String, AnyObject>)
                             self.forcasts.append(forcast)
                             
@@ -140,6 +140,8 @@ class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource, C
         currentWeatherTypeLabel.text = currentWeather.weatherType
         // not all possible weather types have an image. Add a check to see if an image exists for that weather type, otherwise use a default
         // at some point find all possible weather types and get missing images
+        // broken because of new weather type naming conditions
+        // need to decide how to map the new weather types to images
         currentWeatherImage.image = UIImage(named: currentWeather.weatherType)
         
     }
