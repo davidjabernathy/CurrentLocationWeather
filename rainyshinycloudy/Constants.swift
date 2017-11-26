@@ -25,7 +25,7 @@ typealias DownloadComplete = () -> ()
 // current weather url for apixu api
 // forcast url also works 
 // TODO use only one url instead of current and forcast
-let CURRENT_WEATHER_URL = "https://api.apixu.com/v1/current.json?key=fbada9e9a65e4192903153527171611&q=39.9612,-82.9988"
+let CURRENT_WEATHER_URL = "https://api.apixu.com/v1/current.json?key=fbada9e9a65e4192903153527171611&q=33,-84"
 
 // forcast url for apixu api
-let FORCAST_URL = "https://api.apixu.com/v1/forecast.json?key=fbada9e9a65e4192903153527171611&q=39.9612,-82.9988&days=10"
+let FORCAST_URL = "https://api.apixu.com/v1/forecast.json?key=fbada9e9a65e4192903153527171611&q=33,-84&days=10"

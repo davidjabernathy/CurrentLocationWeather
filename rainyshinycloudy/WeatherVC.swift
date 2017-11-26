@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import CoreLocation
 
-class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
+class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
 
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var currentTempLabel: UILabel!
@@ -18,6 +18,7 @@ class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource, C
     @IBOutlet weak var currentWeatherTypeLabel: UILabel!
     @IBOutlet weak var currentWeatherImage: UIImageView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var dayForcastCollection: UICollectionView!
     
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation!
@@ -25,6 +26,8 @@ class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource, C
     var currentWeather: WeatherNow!
     var forcast: Forcast!
     var forcasts = [Forcast]()
+    
+    let nums = ["1", "2", "3", "4", "5"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +40,9 @@ class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource, C
         tableView.delegate = self
         tableView.dataSource = self
         
+        dayForcastCollection.delegate = self
+        dayForcastCollection.dataSource = self
+        
         //print(CURRENT_WEATHER_URL)
         
         currentWeather = WeatherNow()
@@ -45,6 +51,20 @@ class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource, C
         
         
     }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("FORCASTS", forcasts.count)
+        return forcasts.count
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DayForcastCell", for: indexPath) as! DayForcastCell
+        cell.configureCell(forcast: forcasts[indexPath.row])
+        return cell
+    }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -117,7 +137,6 @@ class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource, C
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "weatherCell", for: indexPath) as? WeatherCell {
-            
             let forcast = forcasts[indexPath.row]
             cell.configureCell(forecast: forcast)
             return cell
@@ -134,6 +153,8 @@ class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource, C
     
     func updateMainUI() {
         
+        dayForcastCollection.reloadData()
+        /*
         dateLabel.text = currentWeather.date
         currentTempLabel.text = String(currentWeather.currentTemp)
         currentLocationLabel.text = currentWeather.cityName
@@ -143,6 +164,7 @@ class WeatherVC: UIViewController, UITableViewDelegate, UITableViewDataSource, C
         // broken because of new weather type naming conditions
         // need to decide how to map the new weather types to images
         currentWeatherImage.image = UIImage(named: currentWeather.weatherType)
+        */
         
     }
     
